@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>jquery placeholder</title>
+    <link type="text/css" rel="stylesheet" href="../src/jquery.placeholder.css" >
+    <script type="text/javascript" src="../lib/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="../src/jquery.placeholder.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $('#form1').placeholder();
+        });
+
+        function bind(selector) {
+            $(selector).placeholder();
+        }
+    </script>
+    <style type="text/css">
+        body {
+            font: 13px "\5FAE\8F6F\96C5\9ED1",tahoma,arial,"Hiragino Sans GB","\5b8b\4f53";
+            line-height: 1.5em;
+        }
+
+        input, textarea {
+            padding: 5px 2px;
+            border: 1px solid #ddd;
+            text-indent: 4px;
+            font-size: 14px;
+            line-height: 20px;
+        }
+        input {
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+<form id="form1" action="#" method="get">
+    <input name="name" type="text" placeholder="用户名/邮箱"/>
+    <input name="pwd" type="password" placeholder="用户密码"/>
+    <textarea name="content" cols="30" rows="10" placeholder="文章内容"></textarea>
+    <button type="submit">submit</button>
+</form>
+
+<br/><br/>
+
+<form id="form2" action="#" method="get">
+    <div><input name="name" type="text" placeholder="用户名/邮箱"/></div>
+    <div><input name="pwd" type="password" placeholder="用户密码"/></div>
+    <div><textarea name="content" cols="30" rows="10" placeholder="文章内容"></textarea></div>
+    <div><button type="submit">submit</button></div>
+</form>
+
+<br/><br/><br/>
+
+<button onclick="bind('#form2')">bind form 2</button>
+</body>
+</html>

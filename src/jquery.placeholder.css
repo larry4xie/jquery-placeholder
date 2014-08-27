@@ -1,0 +1,11 @@
+.placeholder {
+    position: absolute;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    font-style: normal;
+    color: #aaa;
+}
+.hide {
+    display: none;
+}
