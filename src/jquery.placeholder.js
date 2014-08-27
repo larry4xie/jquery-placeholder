@@ -38,12 +38,17 @@
                         lineHeight: $input.css("lineHeight"),
                         textIndent: $input.css("textIndent")
                     });
+                    // hack for focus
+                    ph.click(Placeholder._click_placeholder);
 
                     // add to document
                     ph.addClass('hide');
                     $input.after(ph);
                 }
                 return ph;
+            },
+            _click_placeholder: function() {
+                $(this).prev().focus();
             },
             keyup: function() {
                 var input = this,
