@@ -19,7 +19,7 @@
             input: isInputSupported,
             textarea: isTextareaSupported,
             live: false,
-            selector: (isInputSupported ? 'textarea' : ':input') + '[placeholder]',
+            selector: (isInputSupported ? 'textarea' : ':input') + '[placeholder]:not(.ph-disabled)',
             _placeholder: function($input) {
                 // get or create placeholder element
                 var ph = $input.next('i.placeholder');
@@ -75,6 +75,7 @@
             }
         };
 
+        // val set hooks
         var hooks = {
             set: function(element, value) {
                 element.value = value;
