@@ -27,16 +27,19 @@
                     ph = $('<i class="placeholder">' + $input.attr('placeholder') + '</i>');
                     // adaptor style
                     var position = $input.position();
+                    var cssProps = $input.css(['marginLeft', 'marginTop', 'paddingLeft', 'paddingTop',
+                        'fontSize', 'lineHeight', 'textIndent']);
+
                     ph.css({
                         left: position.left,
                         top: position.top,
-                        marginLeft: $input.css("marginLeft") + $input.css("borderLeftWidth"),
-                        marginTop: $input.css("marginTop")  + $input.css("borderTopWidth"),
-                        paddingLeft: $input.css("paddingLeft"),
-                        paddingTop: $input.css("paddingTop"),
-                        fontSize: $input.css("fontSize"),
-                        lineHeight: $input.css("lineHeight"),
-                        textIndent: $input.css("textIndent")
+                        marginLeft: cssProps.marginLeft,
+                        marginTop: cssProps.marginTop,
+                        paddingLeft: cssProps.paddingLeft,
+                        paddingTop: cssProps.paddingTop,
+                        fontSize: cssProps.fontSize,
+                        lineHeight: cssProps.lineHeight,
+                        textIndent: cssProps.textIndent
                     });
                     // hack for focus
                     ph.click(Placeholder._click_placeholder);
@@ -50,7 +53,7 @@
             _click_placeholder: function() {
                 $(this).prev().focus();
             },
-            keyup: function() {
+            setPlaceholder: function() {
                 var input = this,
                     $input = $(input),
                     ph = Placeholder._placeholder($input);
@@ -61,7 +64,7 @@
                     ph.addClass('hide');
                 }
             },
-            blur: function() {
+            clearPlaceholder: function() {
                 var input = this,
                     $input = $(input);
 
@@ -72,14 +75,36 @@
             }
         };
 
+        var hooks = {
+            set: function(element, value) {
+                element.value = value;
+                var $element = $(element);
+                if ($element.data('placeholder-enabled')) {
+                    $element.trigger('change.placeholder');
+                }
+                // `set` can not return `undefined`; see http://jsapi.info/jquery/1.7.1/val#L2363
+                return $element;
+            }
+        };
+
+        if (!isInputSupported) {
+            $.valHooks.input = hooks;
+        }
+        if (!isTextareaSupported) {
+            $.valHooks.textarea = hooks;
+        }
+
         // jQuery fn
         $.fn.placeholder = function() {
             var $this = this;
 
             // global event
             if (!Placeholder.live) {
-                $('body').on('keyup.placeholder', Placeholder.selector, Placeholder.keyup);
-                $('body').on('blur.placeholder', Placeholder.selector, Placeholder.blur);
+                $(document).on({
+                    'keyup.placeholder': Placeholder.setPlaceholder,
+                    'change.placeholder': Placeholder.setPlaceholder,
+                    'blur.placeholder': Placeholder.clearPlaceholder
+                }, Placeholder.selector);
                 Placeholder.live = true;
             }
 
